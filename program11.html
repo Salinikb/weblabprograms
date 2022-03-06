@@ -1,0 +1,88 @@
+<?php
+$con=mysqli_connect("localhost","root","","markmanagement_db");
+if($con === false){
+die("ERROR:could not connect.".mysqli_connect_error());
+}
+else{
+echo "success";
+}
+?>
+ADDSTUDENT.HTML
+<html>
+<head><link rel="stylesheet" href="style.css"/></head>
+	<body>
+		<form action = "add.php.php" method = "post">
+<br><center style="margin:auto;">
+			<table>
+			<tr><td>
+				FIRST NAME :</td><td><input type = "text" name = "fname" ><br><br><br>
+			</td></tr>
+			<tr><td>
+				LAST NAME:</td><td> <input type = "text" name = "lname"><br><br><br>
+			</td></tr>
+			<tr><td>
+				GENDER: </td><td><input type = "radio" value = "Male" name = "gender">Male
+				<input type = "radio" value = "Female" name = "gender">Female
+			<br><br><br></td></tr>
+			<tr><td>COURSE:</td><td>
+				<select name = "course">
+					<option>--select--</option>
+					<option value = "MCA">MCA</option>
+					<option value = "INMCA">INMCA</option>
+				</select>
+			<br><br><br></td></tr>
+			<tr><td>INTERNAL:</td><td>
+				<select name = "internal">
+					<option>--select--</option>
+					<option value = "one">1</option>
+					<option value = "two">2</option>
+				</select>
+			<br><br><br></td></tr>
+			<tr><td>SEMESTER:</td><td>
+				<select name = "semester">
+					<option>--select--</option>
+					<option value = "sem1">sem1</option>
+					<option value = "sem2">sem2</option>
+					<option value = "sem3">sem3</option>
+					<option value = "sem4">sem4</option>
+					<option value = "sem5">sem5</option>
+					<option value = "sem6">sem6</option>
+				</select>
+			<br><br><br></td></tr>
+			<tr><td>
+				PHONE NUMBER : </td><td><input type = "number" name = "phone">
+			<br><br><br></td></tr>
+			<tr><td>
+				<input type = "submit" Value = "Submit" name = "submit">
+			</td></tr>
+			</table>
+</center>
+		</form>
+	</body>
+</html>
+ADDSTUDENT.PHP
+<?php
+	include 'CONNECTION.php';
+	
+if(isset($_POST['submit']))
+{
+	$name = $_POST['fname'];
+	$lname = $_POST['lname'];
+	$gender = $_POST['gender'];
+	$course = $_POST['course'];
+	$internal = $_POST['internal'];
+	$semester = $_POST['semester'];
+	$phone_Number = $_POST['phone'];
+	
+	$sql = "INSERT INTO `student_tb`(`fname`, `lname`, `gender`,`course`, `internal`, `semester`, `phone_Number`) VALUES ('$name','$lname','$gender','$course','$internal','$semester','$phone_Number')";
+	$result = mysqli_query($con,$sql);
+	if($result){
+		echo "New record added";
+	}
+	else{
+	 echo mysqli_error($con);
+	}
+}
+?>
+
+

@@ -1,0 +1,100 @@
+<?php
+    $mysql_host='localhost';
+    $mysql_user='root';
+    $mysql_password='';
+    $conn=mysqli_connect($mysql_host,$mysql_user,$mysql_password);
+    if(mysqli_select_db($conn,'library'))
+    {echo 'connection successful';
+    }
+    else{
+        echo 'connection failed';
+    }
+    ?>
+book_insert.php
+
+<?php
+include "book_connect.php";
+if(isset($_POST['submit']))
+{	
+    $ano=$_POST['acc_no'];
+	$title=$_POST['title'];
+	$author=$_POST['author'];
+	$edition=$_POST['edition'];
+	$publisher=$_POST['publisher'];
+	
+	
+	
+$sql = "INSERT INTO `books` ( `acc_no  `,`title`, `author`, `edition`, `publisher`) VALUES ('$acc_no','$title', '$author', '$edition', '$publisher')";
+$result=$conn->query($sql);
+if($result==TRUE)
+{
+	echo "new record created successfully";
+
+}
+else
+{
+	echo "Error".$sql."<br>".$conn->error;
+}
+$conn->close();
+}
+?>
+<html>
+	<head>
+		<title>newcustomer</title>
+	</head>
+		
+	<body>
+		<form method="POST" action="">
+				<h1>Register</h1><br>
+				acc_no<br>
+				<input type="text" name="acc_no"  required><br>
+                <br>
+				Title<br>
+				<input type="text" name="title"  required><br>
+                Author<br>
+				<input type="text" name="author" required><br>
+                Edition<br>
+				<input type="text" name="edition" required><br>
+                Publisher<br>
+				<input type="text" name="publisher" required>
+                <br>
+				<input type="submit" name="submit" value="register"><br><br><br><br><br>
+				<a href="pro_login.html">already have an account</a><br><br>
+		</form>
+	</body>
+</html>
+
+search_book.php
+
+<?php
+require "book_connect.php";
+if(isset($_POST['sub']))
+{   $bookhead=$_POST['btitle'];
+    $store =  "SELECT * FROM `books` WHERE `title` = '$bookhead'";
+    $result=$conn->query($store);
+    if($is_query_run=mysqli_query($conn,$store))
+    {  
+         while($query_execute=mysqli_fetch_assoc($is_query_run))
+            { ?><table border="1"><tr><th>acc_no</th><th>title</th><th>author</th><th>edition</th><th>publisher</th></tr>
+                <tr><td><?php echo $query_execute["acc_no"];?></td>
+                <td><?php echo $query_execute["title"];?></td>
+                <td><?php echo $query_execute["author"];?></td>
+                <td><?php echo $query_execute["edition"];?></td>
+                <td><?php echo $query_execute["publisher"];?></td></tr></table>
+                
+          <?php  }
+    }$conn->close();
+}
+?>
+<html>
+    <head>
+        <title>book search</title>
+    </head>
+    <body><form method="POST" action="">
+    <label>enter the title</label>
+    <input type="text" name="btitle">
+    <input type="submit" name="sub" value="submit">
+</form>
+</body>
+</html>
+
